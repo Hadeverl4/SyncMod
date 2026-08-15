@@ -59,7 +59,6 @@ namespace HyperMC.ModSync
         private Panel pnlActiveIndicator;
 
         // Config & State variables
-        private string configPath = "config.json";
         private string userSettingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HyperMCModSync", "settings.json");
         private string modpackUrl = "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID";
         private string serverName = "HyperMC";
@@ -963,13 +962,51 @@ namespace HyperMC.ModSync
             return text.StartsWith("%") || Regex.IsMatch(text, @"^[a-zA-Z]:\\") || text.Contains("\\.minecraft") || text.Contains("\\AppData\\") || text.Contains("\\.tlauncher") || text.Contains("\\ModrinthApp") || text.Contains("\\.sklauncher");
         }
 
-        private void LoadConfig()
+        private string GetConfigFilePath()
         {
             try
             {
-                if (File.Exists(configPath))
+                string appDir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\', '/');
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop).TrimEnd('\\', '/');
+                string userDesktop = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Desktop").TrimEnd('\\', '/');
+
+                // 1. If running directly from Desktop, NEVER spawn config on Desktop! Use AppData!
+                if (appDir.Equals(desktopPath, StringComparison.OrdinalIgnoreCase) || 
+                    appDir.Equals(userDesktop, StringComparison.OrdinalIgnoreCase))
                 {
-                    string json = File.ReadAllText(configPath);
+                    string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HyperMCModSync");
+                    if (!Directory.Exists(appDataFolder)) Directory.CreateDirectory(appDataFolder);
+                    return Path.Combine(appDataFolder, "config.json");
+                }
+
+                // 2. If config.json already exists alongside EXE (in non-desktop folder), use it
+                string localConfig = Path.Combine(appDir, "config.json");
+                if (File.Exists(localConfig))
+                {
+                    return localConfig;
+                }
+
+                // 3. Otherwise, store cleanly in AppData folder to keep user folders clean!
+                string defaultAppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HyperMCModSync");
+                if (!Directory.Exists(defaultAppDataFolder)) Directory.CreateDirectory(defaultAppDataFolder);
+                return Path.Combine(defaultAppDataFolder, "config.json");
+            }
+            catch
+            {
+                string fallbackDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HyperMCModSync");
+                if (!Directory.Exists(fallbackDir)) Directory.CreateDirectory(fallbackDir);
+                return Path.Combine(fallbackDir, "config.json");
+            }
+        }
+
+        private void LoadConfig()
+        {
+            string cfgPathToUse = GetConfigFilePath();
+            try
+            {
+                if (File.Exists(cfgPathToUse))
+                {
+                    string json = File.ReadAllText(cfgPathToUse);
                     serverName = ExtractJsonValue(json, "serverName") ?? serverName;
                     authorCredit = ExtractJsonValue(json, "authorCredit") ?? authorCredit;
                     targetVersion = ExtractJsonValue(json, "targetVersion") ?? targetVersion;
@@ -980,7 +1017,7 @@ namespace HyperMC.ModSync
                 }
                 else
                 {
-                    SaveDefaultConfig();
+                    SaveDefaultConfig(cfgPathToUse);
                 }
 
                 // Check saved user settings
@@ -1012,7 +1049,7 @@ namespace HyperMC.ModSync
             if (txtModpackUrl != null) txtModpackUrl.Text = modpackUrl;
         }
 
-        private void SaveDefaultConfig()
+        private void SaveDefaultConfig(string targetPath)
         {
             string defaultConfig = "{\n" +
                 "  \"serverName\": \"HyperMC\",\n" +
@@ -1021,8 +1058,10 @@ namespace HyperMC.ModSync
                 "  \"modpackUrl\": \"https://drive.google.com/uc?export=download&id=YOUR_FILE_ID\",\n" +
                 "  \"minecraftPath\": \"%APPDATA%\\\\.minecraft\"\n" +
                 "}";
-            File.WriteAllText(configPath, defaultConfig);
-            Log("Đã tạo file config.json mặc định.");
+            string dir = Path.GetDirectoryName(targetPath);
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllText(targetPath, defaultConfig);
+            Log(string.Format("Đã tạo file config mặc định tại: {0}", targetPath));
         }
 
         private void SaveUserSettings(string path)
