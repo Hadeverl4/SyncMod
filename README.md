@@ -1,47 +1,36 @@
 # HyperMC Executor // ModSync v2.0.0
 
-Công cụ đồng bộ Modpack Minecraft tự động (Minecraft Modpack Synchronization Tool)  
+Công cụ đồng bộ Modpack Minecraft tự động  
 Tác giả: c0devX-fonq // HyperMC Team  
 Phiên bản: 2.0.0
 
 ---
 
-## 1. GIỚI THIỆU CHUNG
+## 1. TỔNG QUAN
 
-HyperMC Executor // ModSync v2.0.0 là một phần mềm độc lập (Portable Executable) được thiết kế bằng C# WinForms, giúp chủ máy chủ và người chơi Minecraft đồng bộ hóa toàn bộ bộ Modpack (Fabric/Forge) từ Google Drive hoặc Link tải trực tiếp vào thư mục Mods của game chỉ với 1 cú click.
-
-Giao diện phần mềm được thiết kế theo phong cách giao diện chính thức của Minecraft Launcher với thanh điều hướng dọc bên trái, nút đồng bộ 3D nổi và hiệu ứng lún bấm chân thật.
+HyperMC Executor // ModSync v2.0.0 là phần mềm độc lập (Portable Executable) phát triển bằng C# WinForms, hỗ trợ đồng bộ hóa tự động các bộ Modpack (Fabric/Forge) từ Google Drive hoặc liên kết tải trực tiếp vào thư mục game Minecraft chỉ với 1 thao tác.
 
 ---
 
-## 2. CÁC TÍNH NĂNG CHÍNH TRONG PHIÊN BẢN 2.0.0
+## 2. CHỨC NĂNG CHÍNH
 
-- Giao diện Minecraft Launcher HD: Thanh Navigation Rail bên trái, đèn xanh phát sáng Active Indicator và nút bấm 3D kiểu Minecraft với hiệu ứng lún bấm (Sunken Press Effect).
-- Tự động quét và nhận diện Launcher: Nhận diện và tự động phát hiện đường dẫn Mods của nhiều Launcher thông dụng:
-  + Official Minecraft Launcher (Auth) (.minecraft)
-  + TLauncher (.minecraft)
-  + TLegacy Launcher (.tlauncher/legacy)
-  + Modrinth App (ModrinthApp/profiles)
-  + Prism Launcher / MultiMC (PrismLauncher/instances)
-  + CurseForge (curseforge/minecraft/Instances)
-  + SKLauncher (.sklauncher)
-  + Thư mục Tùy chọn Custom
-- Tự động chuyển đổi Link Google Drive: Tự động chuyển các đường link Google Drive thành Link tải trực tiếp và vượt qua trang xác nhận quét virus của Google với các file dung lượng lớn.
-- Kiểm tra cấu trúc Modpack ZIP: Tự động kiểm tra định dạng mã hóa Magic Bytes (PK) và kiểm tra bên trong file ZIP xem có chứa các file mod .jar hoặc file manifest modpack (manifest.json, modrinth.index.json, instance.cfg) hay không. Tự động từ chối các file ZIP giả hoặc file lỗi.
-- Bước xác nhận và Tạm dừng trước khi Patch: Tích hợp bước xác nhận hiển thị thông tin dung lượng (MB) và số lượng mod trước khi ghi đè và giải nén.
-- Sao lưu và Dọn dẹp Mod cũ: Tự động tạo thư mục sao lưu (mods_backup_YYYYMMDD_HHMMSS) trước khi chép mod mới. Tích hợp nút và thông báo tính dung lượng đĩa (MB/GB) để xóa sạch các bản sao lưu cũ khi cần thiết.
-- Nút Hủy tải về động (Dynamic Cancel Download): Trong quá trình đang tải file, nút chính tự động chuyển sang trạng thái Hủy tải về (Cancel Async) và dọn dẹp file tạm.
-- Định tuyến thông minh (Smart Auto Route): Tự động phát hiện và chuyển hướng khi người dùng dán nhầm Link Web vào ô Thư mục hoặc dán đường dẫn Windows vào ô Link Modpack.
-- Cửa sổ Windows File Explorer hiện đại: Nút Duyệt... mở trực tiếp cửa sổ Windows Explorer cỡ lớn, có thể phóng to và điều chỉnh kích thước để chọn thư mục dễ dàng.
-- Hỗ trợ Đa ngôn ngữ (Bilingual): Chuyển đổi linh hoạt và tức thời giữa Tiếng Việt và Tiếng Anh.
-- Icon HD Đa độ phân giải (Multi-Resolution HD Icon): Tích hợp file Icon HD đa lớp kích thước (256x256, 128x128, 96x96, 72x72, 64x64, 48x48, 32x32, 16x16 DIB ARGB) hiển thị sắc nét trên mọi chế độ view Desktop và độ phân giải màn hình.
-- Single-File Portable: Hoàn toàn chạy độc lập 100% trong 1 file SyncMod.exe duy nhất, không cần cài đặt, không cần file DLL hoặc file .config đi kèm.
+- Tự động nhận diện đường dẫn Launcher: Tự phát hiện thư mục Mods của hầu hết các Launcher phổ biến bao gồm Official Minecraft Launcher, TLauncher, TLegacy, Modrinth App, Prism Launcher / MultiMC, CurseForge và SKLauncher, cùng tùy chọn thư mục tùy chỉnh.
+- Chuyển đổi liên kết Google Drive: Tự động biến đổi liên kết xem Google Drive thành luồng tải trực tiếp và bỏ qua màn hình xác nhận quét virus đối với các file dung lượng lớn.
+- Kiểm tra hợp lệ file ZIP Modpack: Xác minh tiêu đề file (PK Magic Bytes) và quét cấu trúc bên trong để đảm bảo sự tồn tại của file mod .jar hoặc file cấu hình modpack (manifest.json, modrinth.index.json, instance.cfg) trước khi xử lý, ngăn chặn file rỗng hoặc file lỗi.
+- Xác nhận thông số trước khi Patch: Hiển thị dung lượng file (MB) cùng số lượng mod phát hiện để người dùng xác nhận trước khi thực hiện ghi đè dữ liệu.
+- Sao lưu và Dọn dẹp dung lượng đĩa: Tự động lưu bản sao mod hiện tại vào thư mục sao lưu có mốc thời gian (mods_backup_YYYYMMDD_HHMMSS) trước khi chép mod mới, tích hợp công cụ tính toán và xóa các bản sao lưu cũ để giải phóng đĩa cứng.
+- Hủy tải về linh hoạt: Cho phép dừng quá trình tải về bất kỳ lúc nào và tự động dọn dẹp file tạm.
+- Tự động sửa vị trí nhập liệu: Phát hiện và định tuyến lại thông minh khi dán nhầm đường dẫn Windows vào ô Link hoặc dán đường dẫn Web vào ô Thư mục.
+- Tích hợp Windows File Explorer cỡ lớn: Mở trực tiếp cửa sổ chọn thư mục hệ thống có khả năng phóng to và tùy chỉnh kích thước.
+- Hỗ trợ đa ngôn ngữ: Chuyển đổi giao diện tức thời giữa Tiếng Việt và Tiếng Anh.
+- Lưu cấu hình an toàn: Quản lý cấu hình thông minh tại %APPDATA%\HyperMCModSync\, đảm bảo không tự sinh file rác trên màn hình Desktop.
+- Chạy độc lập Portable: Hoạt động hoàn toàn trong 1 file SyncMod.exe duy nhất, không yêu cầu cài đặt hay file thư viện phụ thuộc.
 
 ---
 
-## 3. HƯỚNG DẪN BIÊN DỊCH (COMPILATION GUIDE)
+## 3. HƯỚNG DẪN BIÊN DỊCH
 
-Phần mềm được biên dịch trực tiếp bằng trình biên dịch built-in C# csc.exe có sẵn trên Windows bằng PowerShell:
+Biên dịch trực tiếp bằng trình biên dịch C# (csc.exe) đi kèm Windows thông qua PowerShell:
 
 ```powershell
 $csc = "$env:Windir\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
@@ -52,31 +41,17 @@ if (-not (Test-Path $csc)) { $csc = "$env:Windir\Microsoft.NET\Framework\v4.0.30
 
 ---
 
-## 4. CẤU TRÚC FILE CẤU HÌNH (CONFIG SYSTEM)
+## 4. HỆ THỐNG CẤU HÌNH
 
-Phần mềm sử dụng 2 cấp file cấu hình:
-
-1. config.json (Thư mục chương trình):
-   Chứa thông tin cấu hình mặc định do chủ Server hoặc người tạo Tool thiết lập:
-   ```json
-   {
-     "serverName": "HyperMC",
-     "authorCredit": "Tool by c0devX-fonq",
-     "targetVersion": "Fabric 1.21.1",
-     "modpackUrl": "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID",
-     "minecraftPath": "%APPDATA%\\.minecraft"
-   }
-   ```
-
-2. %APPDATA%\HyperMCModSync\settings.json (Lưu trữ cá nhân người dùng):
-   Tự động ghi nhớ và phục hồi đường dẫn mods cuối cùng, link modpack cuối cùng và ngôn ngữ ưu tiên của người dùng khi mở lại tool.
+- config.json (Cấu hình mặc định): Đọc từ cùng thư mục phần mềm hoặc tự khởi tạo tại %APPDATA%\HyperMCModSync\config.json để lưu các thông số máy chủ ban đầu.
+- settings.json (Lưu trữ cá nhân): Tự động khôi phục đường dẫn đã chọn, link modpack và ngôn ngữ ưu tiên của người dùng ở lần khởi động sau.
 
 ---
 
 ## 5. YÊU CẦU HỆ THỐNG
 
-- Hệ điều hành: Windows 7 / Windows 8.1 / Windows 10 / Windows 11 (32-bit và 64-bit).
-- Runtime: .NET Framework 4.5 trở lên (có sẵn 100% trên mọi máy Windows 10 và Windows 11).
+- Hệ điều hành: Windows 7, 8.1, 10, 11 (32-bit & 64-bit).
+- Runtime: .NET Framework 4.5 trở lên.
 
 ---
 
