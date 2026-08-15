@@ -114,14 +114,14 @@ namespace HyperMC.ModSync
             this.ForeColor = textMain;
             this.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
 
-            // Load window icon if present
+            // Load window icon from embedded executable resource
             try
             {
-                if (File.Exists("icon.ico"))
-                {
-                    this.Icon = new Icon("icon.ico");
-                }
-                else
+                this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            }
+            catch
+            {
+                try
                 {
                     string iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "icon.ico");
                     if (File.Exists(iconPath))
@@ -129,8 +129,8 @@ namespace HyperMC.ModSync
                         this.Icon = new Icon(iconPath);
                     }
                 }
+                catch { }
             }
-            catch { }
 
             // 1. LEFT SIDEBAR PANEL (Minecraft Launcher Style)
             pnlSidebar = new Panel
