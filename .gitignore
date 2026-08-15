@@ -1,0 +1,9 @@
+# Temporary files & logs
+*.tmp
+*.log
+*.bak
+modpack_temp.zip
+bin/
+obj/
+.vs/
+.idea/
