@@ -14,17 +14,17 @@ HyperMC Executor // ModSync v2.0.0 is a standalone portable application develope
 
 ## 2. CORE FUNCTIONALITIES
 
-- Automatic Launcher Path Detection: Auto-detects mods folders across major launchers including Official Minecraft Launcher, TLauncher, TLegacy, Modrinth App, Prism Launcher / MultiMC, CurseForge, and SKLauncher, alongside custom directory selection.
-- Google Drive Link Conversion: Automatically transforms Google Drive view URLs into direct download streams while bypassing large-file virus confirmation prompts.
-- Modpack ZIP Archive Validation: Verifies PK magic bytes and inspects archive contents for valid .jar mod files or modpack manifests (manifest.json, modrinth.index.json, instance.cfg) to reject corrupt or invalid archives.
-- Pre-Patch Metrics Confirmation: Prompts users with total file size (MB) and detected mod counts for confirmation prior to extracting and overwriting files.
-- Mod Backup and Storage Management: Automatically creates timestamped backups (mods_backup_YYYYMMDD_HHMMSS) of current mods before applying patches, featuring a built-in storage utility to calculate and purge old backups.
-- Asynchronous Download Cancellation: Supports mid-download cancellation with instant cleanup of temporary download files.
-- Intelligent Input Auto-Routing: Auto-detects and corrects swapped inputs when a Windows path is pasted into the URL field or a web URL into the folder path field.
-- Modern File Explorer Integration: Invokes native, full-sized resizable Windows File Explorer dialogs for intuitive folder browsing.
-- Dual Language Support: Provides real-time switching between Vietnamese and English languages.
-- Safe Configuration Management: Persists configuration within %APPDATA%\HyperMCModSync\ to prevent unwanted file creation on the Desktop.
-- Single-File Portable Operation: Functions entirely within a single SyncMod.exe binary with no installation or external DLL dependencies required.
+- Automatically detects mods folders across major launchers including Official Minecraft Launcher, TLauncher, TLegacy, Modrinth App, Prism Launcher / MultiMC, CurseForge, SKLauncher, and custom directories.
+- Converts Google Drive view URLs into direct download streams while bypassing large-file virus confirmation prompts automatically.
+- Verifies PK magic bytes and inspects archive contents for valid .jar mod files or modpack manifests to reject corrupt or invalid archives.
+- Displays file size in MB and detected mod counts for user confirmation prior to extracting and overwriting files.
+- Creates timestamped backups (mods_backup_YYYYMMDD_HHMMSS) of current mods before applying patches and includes a utility to purge old backups.
+- Supports mid-download cancellation with instant cleanup of temporary files.
+- Detects and corrects swapped inputs when a Windows folder path is pasted into the URL field or a web URL into the folder path field.
+- Integrates native, full-sized resizable Windows File Explorer dialogs for intuitive folder browsing.
+- Provides real-time switching between Vietnamese and English languages.
+- Persists configuration within %APPDATA%\HyperMCModSync\ to prevent unwanted file creation on the Desktop.
+- Functions entirely within a single SyncMod.exe binary with no installation or external DLL dependencies required.
 
 ---
 
@@ -43,8 +43,8 @@ if (-not (Test-Path $csc)) { $csc = "$env:Windir\Microsoft.NET\Framework\v4.0.30
 
 ## 4. CONFIGURATION SYSTEM
 
-- config.json (Default Settings): Reads from the executable directory or initializes within %APPDATA%\HyperMCModSync\config.json for server defaults.
-- settings.json (User Persistence): Automatically saves and restores the user's last selected mods folder, modpack URL, and language preferences across sessions.
+- config.json reads from the executable directory or initializes within %APPDATA%\HyperMCModSync\config.json for server defaults.
+- settings.json saves and restores the user's last selected mods folder, modpack URL, and language preferences across sessions.
 
 ---
 
